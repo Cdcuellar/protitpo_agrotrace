@@ -945,17 +945,24 @@ function renderListaParaComprador() {
               <div style="margin-top:.6rem;">
                 <label style="font-size:.7rem;">Tipo de compra:</label>
                 <select id="modo-${l.id}">
-                  <option value="minorista">Minorista</option>
-                  <option value="mayorista">Mayorista</option>
+                  <option value="minorista">Minorista (1–10 ${l.unidad})</option>
+                  <option value="mayorista">Mayorista (≥11 ${l.unidad})</option>
                 </select>
               </div>
 
               <div style="margin-top:.6rem;">
                 <label style="font-size:.7rem;">Cantidad a comprar (${l.unidad}):</label>
-                <input type="number" min="1" max="${l.cantidad}" value="1" id="cant-${l.id}" style="width:90px;" />
+                <input
+                  type="number"
+                  id="cant-${l.id}"
+                  min="1"
+                  max="10"
+                  value="1"
+                  style="width:90px;"
+                />
               </div>
 
-              <div style="margin-top:.6rem;">
+              <div style="margin-top:.6rem%;">
                 <label style="font-size:.7rem;">Municipio destino:</label>
                 <input type="text" id="mun-${l.id}" placeholder="Popayán, Yumbo..." />
               </div>
@@ -971,25 +978,29 @@ function renderListaParaComprador() {
         })
         .join('') || '<p>No hay resultados.</p>'
 
-    // Ajuste UI: si el usuario elige mayorista, mínimo 11 kg
+    // Ajuste UI: reglas de minorista / mayorista en el input
     filtrados.forEach((l) => {
       const sel = document.querySelector(`#modo-${l.id}`)
       const inputCant = document.querySelector(`#cant-${l.id}`)
       if (!sel || !inputCant) return
 
-      sel.onchange = () => {
+      const ajustarPorModo = () => {
+        let val = Number(inputCant.value) || 0
         if (sel.value === 'mayorista') {
+          if (val < 11) val = 11
           inputCant.min = 11
-          if (Number(inputCant.value) < 11) {
-            inputCant.value = 11
-          }
+          inputCant.max = l.cantidad
         } else {
+          if (val < 1) val = 1
+          if (val > 10) val = 10
           inputCant.min = 1
-          if (Number(inputCant.value) < 1) {
-            inputCant.value = 1
-          }
+          inputCant.max = 10
         }
+        inputCant.value = val
       }
+
+      sel.onchange = ajustarPorModo
+      inputCant.onblur = ajustarPorModo
     })
   }
 
@@ -997,6 +1008,7 @@ function renderListaParaComprador() {
   filtro.onchange = pintarLista
   pintarLista()
 }
+
 
 // ==================================================
 // HITOS DE TRANSPORTE – CU02 / CU03 (por viaje, en todos los lotes)
@@ -1360,7 +1372,18 @@ window.comprarParcial = async function (idLote) {
     return
   }
 
-  const resp = await comprarParcialEnAPI(idLote, cant, modoCompra, municipioDestino)
+  const resp = await comprarParcialEnAPI(
+    idLote,
+    cant,
+    modoCompra,
+    municipioDestino,
+  )
+
+  // Si el backend respondió pero con ok:false, mostrar el mensaje y no hacer nada más
+  if (resp && resp.ok === false) {
+    alert(resp.msg || 'No se pudo realizar la compra.')
+    return
+  }
 
   if (resp && resp.ok) {
     const idx = state.lotes.findIndex((l) => l.id === idLote)
@@ -1381,7 +1404,7 @@ window.comprarParcial = async function (idLote) {
         `Total: ${infoCompra.total} COP`,
     )
   } else {
-    // Modo offline (si backend falla)
+    // Modo offline (si backend falla por completo)
     lote.cantidad = lote.cantidad - cant
     if (lote.cantidad === 0) {
       lote.estado = 'AGOTADO'
@@ -1614,4 +1637,4 @@ function renderPago() {
 // ==================================================
 cargarLotesDesdeAPI().finally(() => {
   render()
-})
+}) 
