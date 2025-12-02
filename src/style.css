@@ -1,0 +1,356 @@
+/* ============================
+   RESET BÁSICO
+   - Quitamos márgenes por defecto
+   - Usamos una fuente estándar
+   ============================ */
+   * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  }
+  
+  /* Color de fondo general de la página */
+  body {
+    background: #f3f4f6; /* ← cambia este si quieres otro fondo general */
+    color: #0f172a;      /* ← color del texto principal (casi negro) */
+    min-height: 100vh;
+  }
+  
+  /* ============================
+     BARRA SUPERIOR (HEADER)
+     ============================ */
+  .topbar {
+    background: #0f172a;  /* ← color de la barra de arriba */
+    color: #fff;          /* texto blanco */
+    padding: 16px 32px;   /* espacio interno */
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    /* sombrita abajo de la barra */
+    box-shadow: 0 2px 8px rgba(0,0,0,.25);
+  }
+  
+  /* Contenedor del nombre TraceAgro y subtítulo */
+  .brand {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+  
+  /* Título grande “TraceAgro” */
+  .brand h1 {
+    font-size: 1.5rem;
+    font-weight: 700;
+  }
+  
+  /* Subtítulo debajo del nombre */
+  .brand small {
+    font-size: .8rem;
+    opacity: .8; /* un poquito más claro */
+  }
+  
+  /* Contenedor derecho de la barra (selector de rol + botón inicio) */
+  .topbar .right-side {
+    display: flex;
+    gap: .75rem;
+    align-items: center;
+  }
+  
+  /* Estilos generales para el select y el botón del header */
+  select,
+  .topbar button {
+    border: none;
+    border-radius: .5rem;
+    padding: .4rem .75rem;
+    font-size: .85rem;
+    cursor: pointer;
+  }
+  
+  /* Selector de rol */
+  select {
+    background: #e2e8f0;   /* ← color del fondo del select */
+    color: #0f172a;        /* color del texto del select */
+  }
+  
+  /* Botón de “Inicio” de la barra */
+  .topbar button {
+    background: #2563eb;   /* ← azul del botón */
+    color: #fff;
+    transition: background .15s ease-in-out;
+  }
+  
+  /* Hover del botón del header */
+  .topbar button:hover {
+    background: #1d4ed8;   /* ← azul un poco más oscuro al pasar el mouse */
+  }
+  
+  /* ============================
+     CONTENEDOR GENERAL
+     ============================ */
+  .page {
+    max-width: 1100px;     /* ancho máximo de la app */
+    margin: 1.5rem auto 3rem;
+    padding: 0 1rem;
+    display: flex;
+    gap: 1.5rem;
+    align-items: flex-start;
+  }
+  
+  /* ============================
+     MENÚ LATERAL POR ROL (izquierda)
+     ============================ */
+  .menu-rol {
+    width: 240px;
+    background: #fff;              /* ← fondo blanco del menú lateral */
+    border-radius: 1rem;
+    border: 1px solid #e2e8f0;     /* ← borde clarito */
+    box-shadow: 0 10px 25px rgba(15,23,42,0.05); /* sombra ligera */
+    padding: 1.25rem 1rem;
+    position: sticky;
+    top: 1.25rem;
+    display: flex;
+    flex-direction: column;
+    gap: .7rem;
+  }
+  
+  /* Título del menú lateral */
+  .menu-rol h3 {
+    font-size: .95rem;
+    font-weight: 700;
+    margin-bottom: .5rem;
+  }
+  
+  /* Texto debajo del título del menú lateral */
+  .menu-rol small {
+    display: block;
+    margin-bottom: .9rem;
+    color: #64748b; /* ← gris para texto secundario */
+  }
+  
+  /* Botones del menú lateral (Registrar lote, etc) */
+  .menu-rol button {
+    width: 100%;
+    background: #e1e8f0;          /* ← fondo casi blanco tirando a gris */
+    border: 1px solid #e2e8f0;
+    border-radius: .6rem;
+    padding: .5rem .4rem;
+    text-align: left;
+    font-size: .85rem;
+    cursor: pointer;
+    transition: background .12s;
+  }
+  
+  /* Hover de los botones del menú lateral */
+  .menu-rol button:hover {
+    background: #a2bde9;          /* ← azul muy claro en hover */
+  }
+  
+  /* ============================
+     TARJETAS / CONTENIDO PRINCIPAL
+     ============================ */
+  .card {
+    flex: 1;
+    background: #fff;
+    border-radius: 1rem;
+    border: 1px solid #cbd8eb;
+    box-shadow: 0 10px 25px rgba(15,23,42,0.05);
+    padding: 1.5rem 1.5rem 1.75rem;
+  }
+  
+  /* Encabezado de cada sección dentro de la card */
+  .section-header h2 {
+    font-size: 1.25rem;
+    margin-bottom: .25rem;
+  }
+  
+  /* Texto debajo del título de la card */
+  .section-header p {
+    color: #64748b; /* ← gris para descripción */
+    font-size: .9rem;
+    margin-bottom: 1.25rem;
+  }
+  
+  /* ============================
+     FORMULARIOS
+     ============================ */
+  .form-grid {
+    display: grid;
+    gap: 1rem;
+    /* Se autoajustan las columnas según el ancho de pantalla */
+    grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+    margin-bottom: 1.25rem;
+  }
+  
+  /* Etiquetas arriba de los inputs */
+  label {
+    display: block;
+    font-size: .8rem;
+    font-weight: 600;
+    margin-bottom: .3rem;
+    color: #0f172a;
+  }
+  
+  /* Inputs en general */
+  input[type="text"],
+  input[type="number"],
+  input[type="date"],
+  textarea,
+  select.form-control {
+    width: 100%;
+    padding: .55rem .6rem;
+    border-radius: .6rem;
+    border: 1px solid #e4edf8; /* ← color del borde del input */
+    background: #fff;
+    font-size: .85rem;
+  }
+  
+  /* Textarea (para trazabilidad) */
+  textarea {
+    min-height: 110px;
+    resize: vertical;
+  }
+  
+  /* Botón principal de formularios */
+  button.primary {
+    background: #2563eb;  /* ← azul principal */
+    color: #fff;
+    border: none;
+    border-radius: .6rem;
+    padding: .5rem .9rem;
+    font-weight: 600;
+    cursor: pointer;
+  }
+  button.primary:hover {
+    background: #1d4ed8;
+  }
+  
+  /* ============================
+     LISTA DE LOTES
+     ============================ */
+  .lista-lotes {
+    display: grid;
+    gap: 1rem;
+  }
+  
+  /* Cada lote */
+  .lote-card {
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: .8rem;
+    padding: .8rem .9rem .9rem;
+  }
+  
+  /* Cabecera del lote (nombre + badge) */
+  .lote-card-header {
+    display: flex;
+    justify-content: space-between;
+    gap: .5rem;
+    margin-bottom: .35rem;
+  }
+  
+  /* Texto pequeño dentro del lote */
+  .lote-card small {
+    display: block;
+    color: #64748b;
+    font-size: .7rem;
+    margin-bottom: .15rem;
+  }
+  
+  /* Etiquetas tipo “DISPONIBLE” */
+  .badge {
+    display: inline-block;
+    background: #e0ecff; /* ← fondo azul claro */
+    color: #1d4ed8;      /* ← texto azul */
+    padding: .2rem .5rem;
+    border-radius: 999px;
+    font-size: .7rem;
+    font-weight: 600;
+  }
+  
+  /* ============================
+     HISTORIAL / TIMELINE
+     ============================ */
+  .timeline {
+    margin-top: 1rem;
+    border-left: 3px solid #e2e8f0; /* ← línea vertical del timeline */
+    padding-left: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: .9rem;
+  }
+  
+  /* Cada evento del timeline */
+  .timeline-item {
+    position: relative;
+    padding-left: .5rem;
+  }
+  
+  /* Punto azul del timeline */
+  .timeline-item::before {
+    content: '';
+    position: absolute;
+    left: -1.2rem;
+    top: .25rem;
+    width: .65rem;
+    height: .65rem;
+    background: #2563eb; /* ← color del punto del timeline */
+    border-radius: 999px;
+  }
+  
+  /* Título de cada evento */
+  .timeline-item h4 {
+    font-size: .9rem;
+    margin-bottom: .1rem;
+  }
+  
+  /* Fecha u hora del evento */
+  .timeline-item small {
+    display: block;
+    color: #94a3b8;
+    font-size: .7rem;
+  }
+  
+  /* Descripción del evento */
+  .timeline-item p {
+    font-size: .78rem;
+  }
+  
+  /* ============================
+     TABLA SIMPLE (por si se usa)
+     ============================ */
+  .table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 1rem;
+  }
+  .table th,
+  .table td {
+    border: 1px solid #e2e8f0;
+    padding: .4rem .5rem;
+    font-size: .8rem;
+  }
+  .table th {
+    background: #eff6ff;
+    text-align: left;
+  }
+  
+  /* ============================
+     RESPONSIVO
+     ============================ */
+  @media (max-width: 880px) {
+    .page {
+      flex-direction: column; /* menú pasa arriba y contenido abajo */
+    }
+    .menu-rol {
+      width: 100%;
+      position: static;
+      flex-direction: row;
+      flex-wrap: wrap;
+    }
+    .menu-rol button {
+      flex: 1 1 45%;
+    }
+  }
+  
